@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class CompanyNameDAO {
-    CompanyName companyName = new CompanyName();
+    private CompanyName companyName = new CompanyName();
 
     public CompanyName getCompanyName() {
         return companyName;

@@ -1,14 +1,47 @@
 package invoice.model;
 
-import java.time.LocalDate;
+import invoice.watch.Watch;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.DoubleAdder;
 
 public class Invoice {
     private String invoiceNumber;
     private Client client;
-    private LocalDate creationDate;
-    private List<Product> productList;
+    private List<Watch> productList;
     private double sumPrice;
+    private static int invoiceID;
+
+    public Invoice(Client client, List<Watch> productList) {
+        this.invoiceNumber = generateInvoiceNumber();
+        this.client = client;
+        this.productList = productList;
+        this.sumPrice = pricesAddition(productList);
+    }
+
+    public String getCurrentDate() {
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        return sdf.format(date);
+    }
+
+    public int generateInvoiceID() {
+        invoiceID++;
+        return invoiceID;
+    }
+
+    public String generateInvoiceNumber() {
+        return generateInvoiceID() + getCurrentDate();
+
+    }
+
+    public double pricesAddition(List<Watch> list) {
+        DoubleAdder d = new DoubleAdder();
+        list.stream().map(x -> x.getPrice()).forEach(d::add);
+        this.sumPrice = d.doubleValue();
+        return d.doubleValue();
+    }
 
     public String getInvoiceNumber() {
         return invoiceNumber;
@@ -26,21 +59,21 @@ public class Invoice {
         this.client = client;
     }
 
-    public LocalDate getCreationDate() {
-        return creationDate;
-    }
+//    public LocalDate getCreationDate() {
+//        return creationDate;
+//    }
+//
+//    public void setCreationDate(LocalDate creationDate) {
+//        this.creationDate = creationDate;
+//    }
 
-    public void setCreationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public List<Product> getProductList() {
+    public List<Watch> getProductList() {
         return productList;
     }
 
-    public void setProductList(List<Product> productList) {
+    public void setProductList(List<Watch> productList) {
         this.productList = productList;
-        productList.forEach(x->sumPrice += x.getPrice());
+        productList.forEach(x -> sumPrice += x.getPrice());
     }
 
     public double getSumPrice() {
@@ -54,10 +87,10 @@ public class Invoice {
     @Override
     public String toString() {
         return "Invoice{" +
-                "invoiceNumber='" + invoiceNumber + '\'' +
-                ", client=" + client +
-                ", creationDate=" + creationDate +
-                ", productList=" + productList +
+                "invoiceNumber='" + invoiceNumber + "\n" +
+                ", client=" + client + "\n" +
+//                ", creationDate=" + creationDate + "\n" +
+                ", productList=" + productList + "\n" +
                 ", sumPrice=" + sumPrice +
                 '}';
     }

@@ -2,21 +2,21 @@ package invoice;
 
 import invoice.DAO.ClientMem;
 import invoice.DAO.ClientSort;
-import invoice.DAO.CompanyNameDAO;
 import invoice.DAO.IClient;
-import invoice.model.Adress;
-import invoice.model.Client;
-import invoice.model.ClientType;
-import invoice.model.CompanyName;
+import invoice.model.*;
+import invoice.watch.DAO.WatchMem;
 
 public class TestMain {
 
     public static void main(String[] args) {
-//        testDAO();
-        CompanyNameDAO companyNameDAO = new CompanyNameDAO();
-        CompanyName companyName = companyNameDAO.getCompanyName();
-        System.out.println(companyName);
-
+        ClientMem clientMem = new ClientMem();
+        WatchMem watchMem = new WatchMem();
+        watchMem.creationWatchDataBase();
+       watchMem.addProductToList("Alliance");
+       watchMem.addProductToList("Men");
+       watchMem.addProductToList("G-Shock");
+Invoice invoice1 = new Invoice(clientMem.getClientByID(5),watchMem.shoppingList);
+        System.out.println(invoice1);
     }
 
     private static void testDAO() {
@@ -52,5 +52,7 @@ public class TestMain {
         System.out.println("Wyszukiwanie po NIP");
         System.out.println(iClient.getClientByNIP("523-12-12-123"));
         System.out.println(iClient.getClientByNIP("2345356446"));
+
+
     }
 }

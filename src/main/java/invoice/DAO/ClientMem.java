@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class ClientMem implements IClient {
 
-    private List<Client> listOfClients = new ArrayList<>();
+    public List<Client> listOfClients = new ArrayList<>();
 
     public ClientMem() {
         listOfClientCreation();
